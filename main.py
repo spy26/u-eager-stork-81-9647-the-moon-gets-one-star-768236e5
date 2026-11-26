@@ -26,6 +26,13 @@ def main() -> int:
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, OUTPUT_FILENAME)
+    if len(ENTRY) > 120 or "\n" in ENTRY or not ENTRY.strip():
+        print(
+            "error: entry rejected by final gate: must be one non-blank "
+            "line of at most 120 characters",
+            file=sys.stderr,
+        )
+        return 1
     with open(out_path, "w", encoding="utf-8", newline="") as f:
         f.write(ENTRY)
     print(f"Wrote {len(ENTRY)} characters to {out_path}")
